@@ -130,6 +130,7 @@ namespace Messenger_Bot_Manager
                 SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("JavaScript"),
                 Foreground = new SolidColorBrush(Colors.LightGray),
                 ShowLineNumbers = true,
+                Text = File.ReadAllText(bots[BotList.SelectedIndex].Path)
             };
 
             using (Stream s = new MemoryStream(Encoding.Default.GetBytes(Properties.Resources.VS2019_Dark)))
