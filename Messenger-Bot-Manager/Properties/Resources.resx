@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VS2019_Dark" xml:space="preserve">
+    <value>&lt;?xml version="1.0"?&gt;
+&lt;!-- syntaxdefinition for JavaScript 2.0 by Svante Lidman --&gt;
+&lt;!-- converted to AvalonEdit format by Siegfried Pammer in 2010 --&gt;
+&lt;SyntaxDefinition name="JavaScript" extensions=".js" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008"&gt;
+	&lt;Color name="Digits"                    foreground="#FFb5cea8" fontStyle="normal" fontWeight="normal" exampleText="3.14"/&gt;
+    &lt;Color name="Comment"                   foreground="#FF57A64A" exampleText="// comment"/&gt;
+    &lt;Color name="String"                    foreground="#FFD69D85" exampleText="var text = &amp;quot;Hello, World!&amp;quot;;" /&gt;
+    &lt;Color name="Character"                 foreground="#FFD69D85" exampleText="var char = 'a';"/&gt;
+    &lt;Color name="Regex"                     foreground="#FF3a6a9b" exampleText="/abc/m"/&gt;
+    &lt;Color name="JavaScriptKeyWords"        foreground="#FFd8a0df" exampleText="return myVariable;"/&gt;
+    &lt;Color name="JavaScriptIntrinsics"      foreground="#FFAFAF00" exampleText="Math.random()"/&gt;
+    &lt;Color name="JavaScriptLiterals"        foreground="#FFd8a0df" exampleText="return false;"/&gt;
+    &lt;Color name="JavaScriptGlobalFunctions" foreground="#FFdcdcaa" exampleText="escape(myString);"/&gt;
+	&lt;RuleSet ignoreCase="false"&gt;
+		&lt;Keywords color="JavaScriptKeyWords"&gt;
+			&lt;Word&gt;break&lt;/Word&gt;
+			&lt;Word&gt;continue&lt;/Word&gt;
+			&lt;Word&gt;delete&lt;/Word&gt;
+			&lt;Word&gt;else&lt;/Word&gt;
+			&lt;Word&gt;for&lt;/Word&gt;
+			&lt;Word&gt;function&lt;/Word&gt;
+			&lt;Word&gt;if&lt;/Word&gt;
+			&lt;Word&gt;in&lt;/Word&gt;
+			&lt;Word&gt;let&lt;/Word&gt;
+			&lt;Word&gt;new&lt;/Word&gt;
+			&lt;Word&gt;return&lt;/Word&gt;
+			&lt;Word&gt;this&lt;/Word&gt;
+			&lt;Word&gt;typeof&lt;/Word&gt;
+			&lt;Word&gt;var&lt;/Word&gt;
+			&lt;Word&gt;void&lt;/Word&gt;
+			&lt;Word&gt;while&lt;/Word&gt;
+			&lt;Word&gt;with&lt;/Word&gt;
+			&lt;Word&gt;abstract&lt;/Word&gt;
+			&lt;Word&gt;boolean&lt;/Word&gt;
+			&lt;Word&gt;byte&lt;/Word&gt;
+			&lt;Word&gt;case&lt;/Word&gt;
+			&lt;Word&gt;catch&lt;/Word&gt;
+			&lt;Word&gt;char&lt;/Word&gt;
+			&lt;Word&gt;class&lt;/Word&gt;
+			&lt;Word&gt;const&lt;/Word&gt;
+			&lt;Word&gt;debugger&lt;/Word&gt;
+			&lt;Word&gt;default&lt;/Word&gt;
+			&lt;Word&gt;do&lt;/Word&gt;
+			&lt;Word&gt;double&lt;/Word&gt;
+			&lt;Word&gt;enum&lt;/Word&gt;
+			&lt;Word&gt;export&lt;/Word&gt;
+			&lt;Word&gt;extends&lt;/Word&gt;
+			&lt;Word&gt;final&lt;/Word&gt;
+			&lt;Word&gt;finally&lt;/Word&gt;
+			&lt;Word&gt;float&lt;/Word&gt;
+			&lt;Word&gt;goto&lt;/Word&gt;
+			&lt;Word&gt;implements&lt;/Word&gt;
+			&lt;Word&gt;import&lt;/Word&gt;
+			&lt;Word&gt;instanceof&lt;/Word&gt;
+			&lt;Word&gt;int&lt;/Word&gt;
+			&lt;Word&gt;interface&lt;/Word&gt;
+			&lt;Word&gt;long&lt;/Word&gt;
+			&lt;Word&gt;native&lt;/Word&gt;
+			&lt;Word&gt;package&lt;/Word&gt;
+			&lt;Word&gt;private&lt;/Word&gt;
+			&lt;Word&gt;protected&lt;/Word&gt;
+			&lt;Word&gt;public&lt;/Word&gt;
+			&lt;Word&gt;short&lt;/Word&gt;
+			&lt;Word&gt;static&lt;/Word&gt;
+			&lt;Word&gt;super&lt;/Word&gt;
+			&lt;Word&gt;switch&lt;/Word&gt;
+			&lt;Word&gt;synchronized&lt;/Word&gt;
+			&lt;Word&gt;throw&lt;/Word&gt;
+			&lt;Word&gt;throws&lt;/Word&gt;
+			&lt;Word&gt;transient&lt;/Word&gt;
+			&lt;Word&gt;try&lt;/Word&gt;
+			&lt;Word&gt;volatile&lt;/Word&gt;
+		&lt;/Keywords&gt;
+		&lt;Keywords color="JavaScriptIntrinsics"&gt;
+			&lt;Word&gt;Array&lt;/Word&gt;
+			&lt;Word&gt;Boolean&lt;/Word&gt;
+			&lt;Word&gt;Date&lt;/Word&gt;
+			&lt;Word&gt;Function&lt;/Word&gt;
+			&lt;Word&gt;Global&lt;/Word&gt;
+			&lt;Word&gt;Math&lt;/Word&gt;
+			&lt;Word&gt;Number&lt;/Word&gt;
+			&lt;Word&gt;Object&lt;/Word&gt;
+			&lt;Word&gt;RegExp&lt;/Word&gt;
+			&lt;Word&gt;String&lt;/Word&gt;
+		&lt;/Keywords&gt;
+		&lt;Keywords color="JavaScriptLiterals"&gt;
+			&lt;Word&gt;false&lt;/Word&gt;
+			&lt;Word&gt;null&lt;/Word&gt;
+			&lt;Word&gt;true&lt;/Word&gt;
+			&lt;Word&gt;NaN&lt;/Word&gt;
+			&lt;Word&gt;Infinity&lt;/Word&gt;
+		&lt;/Keywords&gt;
+		&lt;Keywords color="JavaScriptGlobalFunctions"&gt;
+			&lt;Word&gt;eval&lt;/Word&gt;
+			&lt;Word&gt;parseInt&lt;/Word&gt;
+			&lt;Word&gt;parseFloat&lt;/Word&gt;
+			&lt;Word&gt;escape&lt;/Word&gt;
+			&lt;Word&gt;unescape&lt;/Word&gt;
+			&lt;Word&gt;isNaN&lt;/Word&gt;
+			&lt;Word&gt;isFinite&lt;/Word&gt;
+		&lt;/Keywords&gt;
+		&lt;Span color="Comment"&gt;
+			&lt;Begin&gt;//&lt;/Begin&gt;
+		&lt;/Span&gt;
+		&lt;Span color="Comment" multiline="true"&gt;
+			&lt;Begin&gt;/\*&lt;/Begin&gt;
+			&lt;End&gt;\*/&lt;/End&gt;
+		&lt;/Span&gt;
+		&lt;Span color="Regex"&gt;
+			&lt;Begin&gt;(?&amp;lt;!([})\]\w]+\s*))/&lt;/Begin&gt;
+			&lt;End&gt;/&lt;/End&gt;
+		&lt;/Span&gt;
+		&lt;Span color="String" multiline="true"&gt;
+			&lt;Begin&gt;"&lt;/Begin&gt;
+			&lt;End&gt;"&lt;/End&gt;
+			&lt;RuleSet&gt;
+				&lt;Span begin="\\" end="." /&gt;
+			&lt;/RuleSet&gt;
+		&lt;/Span&gt;
+		&lt;Span color="Character"&gt;
+			&lt;Begin&gt;'&lt;/Begin&gt;
+			&lt;End&gt;'&lt;/End&gt;
+			&lt;RuleSet&gt;
+				&lt;Span begin="\\" end="." /&gt;
+			&lt;/RuleSet&gt;
+		&lt;/Span&gt;
+		&lt;Rule color="Digits"&gt;\b0[xX][0-9a-fA-F]+|(\b\d+(\.[0-9]+)?|\.[0-9]+)([eE][+-]?[0-9]+)?&lt;/Rule&gt;
+	&lt;/RuleSet&gt;
+&lt;/SyntaxDefinition&gt;</value>
+  </data>
+</root>
