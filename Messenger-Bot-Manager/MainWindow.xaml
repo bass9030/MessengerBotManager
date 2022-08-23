@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
         xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:local="clr-namespace:Messenger_Bot_Manager"
         WindowStartupLocation="CenterOwner"
@@ -17,6 +18,11 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    <mah:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <dragablz:DragablzIcon />
+        </DataTemplate>
+    </mah:MetroWindow.IconTemplate>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -49,10 +55,13 @@
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" ShowsPreview="True"/>
             <Rectangle Fill="Gray" Width="1" HorizontalAlignment="Stretch" Grid.Column="1"/>
 
-            <TabControl Grid.Column="2" Name="editorTab">
+            <TabControl Grid.Column="2" Name="editorTab"
+                mah:TabControlHelper.CloseTabCommand="{Binding BtnCmd}"
+                mah:TabControlHelper.CloseTabCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=SelectedItem}"
+                >
 
             </TabControl>
-            
+
         </Grid>
     </Grid>
 </mah:MetroWindow>

@@ -23,6 +23,7 @@ using ICSharpCode.AvalonEdit;
 using System.Timers;
 using System.Net.Http;
 using System.IO.Compression;
+using Dragablz;
 
 namespace Messenger_Bot_Manager
 {
@@ -34,27 +35,44 @@ namespace Messenger_Bot_Manager
     }
     public class Bot
     {
+        public bool isChanged = false;
         public BotType Type { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
         public bool isOn { get; set; }
     }
 
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        public RelayCommand BtnCmd { get; set; }
+
         List<Bot> bots = new List<Bot>();
         public MainWindow()
         {
             new Loading().ShowDialog();
+            BtnCmd = new RelayCommand(buttonExecute, buttonCanExecute);
             InitializeComponent();
             Loaded += MainWindow_Loaded;
         }
 
+        private void buttonExecute(object param)
+        {
+            MessageBox.Show(param.ToString());
+            //Debug.WriteLine(((TabItem)param).Name);
+        }
+
+        private bool buttonCanExecute(object param)
+        {
+            return true;
+        }
+
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            this.DataContext = this;
             BotList.ItemsSource = bots;
             string botPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MessengerBotManager");
             foreach(string bot in Directory.GetDirectories(botPath))
@@ -114,11 +132,17 @@ namespace Messenger_Bot_Manager
                 return;
             }
 
+            //CloseTabCommandParameter = "{Binding RelativeSource={RelativeSource Self}, Path=Header}" >
+
+
+
             TabItem item = new TabItem()
             {
                 Header = bots[BotList.SelectedIndex].Name,
                 Name = "t" + BotList.SelectedIndex.ToString(),
                 AllowDrop = true,
+                //CloseTabCommand = BtnCmd,
+                //CloseTabCommandParameter = BotList.SelectedIndex
             };
             item.MouseMove += TabItem_PreviewMouseMove;
             item.Drop += TabItem_Drop;
@@ -126,12 +150,15 @@ namespace Messenger_Bot_Manager
             TextEditor editor = new()
             {
                 FontSize = 18,
+                Name = "e" + BotList.SelectedIndex.ToString(),
                 FontFamily = new FontFamily("D2Coding"),
                 SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("JavaScript"),
                 Foreground = new SolidColorBrush(Colors.LightGray),
                 ShowLineNumbers = true,
-                Text = File.ReadAllText(bots[BotList.SelectedIndex].Path)
+                Text = File.ReadAllText(bots[BotList.SelectedIndex].Path),
             };
+
+            editor.TextChanged += Editor_TextChanged;
 
             using (Stream s = new MemoryStream(Encoding.Default.GetBytes(Properties.Resources.VS2019_Dark)))
             {
@@ -144,6 +171,11 @@ namespace Messenger_Bot_Manager
             editorTab.Items.Add(item);
             editorTab.Items.Refresh();
             editorTab.SelectedIndex = editorTab.Items.Count - 1;
+        }
+
+        private void Editor_TextChanged(object? sender, EventArgs e)
+        {
+            bots[int.Parse(((TextEditor)sender).Name.Replace("e", ""))].isChanged = true;
         }
     }
 }
