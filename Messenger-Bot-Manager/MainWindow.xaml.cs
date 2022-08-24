@@ -74,6 +74,7 @@ namespace Messenger_Bot_Manager
         {
             this.DataContext = this;
             BotList.ItemsSource = bots;
+            editorTab.ClosingItemCallback = EditorTab_PreviewTabClosing;
             string botPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MessengerBotManager");
             foreach(string bot in Directory.GetDirectories(botPath))
             {
@@ -88,6 +89,11 @@ namespace Messenger_Bot_Manager
             }
 
             BotList.Items.Refresh();
+        }
+
+        private void EditorTab_PreviewTabClosing(ItemActionCallbackArgs<TabablzControl> args)
+        {
+            args.Cancel();
         }
 
         private void TabItem_PreviewMouseMove(object sender, MouseEventArgs e)
