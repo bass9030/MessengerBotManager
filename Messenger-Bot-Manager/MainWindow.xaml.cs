@@ -76,6 +76,7 @@ namespace Messenger_Bot_Manager
             BotList.ItemsSource = bots;
             editorTab.ClosingItemCallback = EditorTab_PreviewTabClosing;
             string botPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MessengerBotManager");
+            if(!Directory.Exists(botPath)) Directory.CreateDirectory(botPath);
             foreach(string bot in Directory.GetDirectories(botPath))
             {
                 JObject info = JObject.Parse(File.ReadAllText(Path.Combine(bot, "bot.json")));
