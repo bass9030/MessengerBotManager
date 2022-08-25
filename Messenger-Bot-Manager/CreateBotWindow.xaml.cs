@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,21 @@ namespace Messenger_Bot_Manager
     /// <summary>
     /// CreateBotWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class CreateBotWindow : Window
+    public partial class CreateBotWindow : MetroWindow
     {
         public CreateBotWindow()
         {
             InitializeComponent();
+        }
+
+        private void cancel_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void add_Click(object sender, RoutedEventArgs e)
+        {
+            //
         }
     }
 }

@@ -219,7 +219,7 @@ namespace Messenger_Bot_Manager
 
         private void CreateNewBot_Click(object sender, RoutedEventArgs e)
         {
-
+            new CreateBotWindow().ShowDialog();
         }
 
         private void OpenBot_Click(object sender, RoutedEventArgs e)
