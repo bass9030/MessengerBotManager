@@ -61,25 +61,30 @@ namespace Messenger_Bot_Manager
             Dispatcher.Invoke(() => comment.Content = "adb 연결 확인중...");
 
             bool isAdbConnect = false;
-            string[] devices = adb.getDeviceIds();
-            Debug.WriteLine(devices.Length);
-            if (devices.Length == 0)
+            string[] devices;
+            while (true)
             {
-                TaskDialog dialog = new();
-                dialog.MainIcon = TaskDialogIcon.Warning;
-                dialog.WindowTitle = "ADB 연결 없음!";
-                dialog.Content = "ADB에 연결된 기기가 없습니다!\n일부 기능이 제한됩니다. 계속하시겠습니까?";
-                dialog.Buttons.Add(new TaskDialogButton()
+                devices = adb.getDeviceIds();
+                Debug.WriteLine(devices.Length);
+                if (devices.Length == 0)
                 {
-                    ButtonType = ButtonType.Cancel
-                });
-                dialog.Buttons.Add(new TaskDialogButton()
-                {
-                    ButtonType = ButtonType.Retry
-                });
-                dialog.ShowDialog();
+                    TaskDialog dialog = new();
+                    dialog.MainIcon = TaskDialogIcon.Warning;
+                    dialog.WindowTitle = "ADB 연결 없음!";
+                    dialog.Content = "ADB에 연결된 기기가 없습니다!\n일부 기능이 제한됩니다. 계속하시겠습니까?";
+                    dialog.Buttons.Add(new TaskDialogButton()
+                    {
+                        ButtonType = ButtonType.Cancel
+                    });
+                    dialog.Buttons.Add(new TaskDialogButton()
+                    {
+                        ButtonType = ButtonType.Retry
+                    });
+                    if (dialog.ShowDialog().ButtonType != ButtonType.Retry) break;
+                    else continue;
+                }
             }
-            else
+            if(devices.Length != 0)
             {
                 isAdbConnect = true;
                 if(string.IsNullOrEmpty(Properties.Settings.Default.deviceId))

@@ -465,7 +465,10 @@
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
-            <MenuItem Header="파일" Height="30"/>
+            <MenuItem Header="파일" Height="30">
+                <MenuItem Header="새 봇 생성" Click="CreateNewBot_Click"/>
+                <MenuItem Header="기존 봇 추가" Click="OpenBot_Click"/>
+            </MenuItem>
             <MenuItem Header="편집"/>
             <MenuItem Header="디버그"/>
         </Menu>

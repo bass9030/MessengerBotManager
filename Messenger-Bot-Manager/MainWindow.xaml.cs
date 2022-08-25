@@ -24,6 +24,7 @@ using System.Timers;
 using System.Net.Http;
 using System.IO.Compression;
 using Dragablz;
+using Ookii.Dialogs.Wpf;
 
 namespace Messenger_Bot_Manager
 {
@@ -94,7 +95,38 @@ namespace Messenger_Bot_Manager
 
         private void EditorTab_PreviewTabClosing(ItemActionCallbackArgs<TabablzControl> args)
         {
-            args.Cancel();
+            TabItem selectedItem = (TabItem)args.Owner.SelectedItem;
+            if (bots[int.Parse(selectedItem.Name.Replace("t", ""))].isChanged)
+            {
+                TaskDialog dialog = new();
+                dialog.MainIcon = TaskDialogIcon.Warning;
+                dialog.WindowTitle = "저장되지 않은 봇";
+                dialog.Content = $"{selectedItem.Header}을(를) 저장하시겠습니까?";
+                dialog.Buttons.Add(new TaskDialogButton()
+                {
+                    ButtonType = ButtonType.Yes,
+                    Text = "저장"
+                });
+                dialog.Buttons.Add(new TaskDialogButton()
+                {
+                    ButtonType = ButtonType.No,
+                    Text = "저장하지 않음"
+                });
+                dialog.Buttons.Add(new TaskDialogButton()
+                {
+                    ButtonType = ButtonType.Cancel,
+                    Text = "취소"
+                });
+                TaskDialogButton result = dialog.ShowDialog();
+                if (result.ButtonType == ButtonType.Yes) SaveBot(int.Parse(selectedItem.Name.Replace("t", "")));
+                else if (result.ButtonType == ButtonType.No) return;
+                else if (result.ButtonType == ButtonType.Cancel) args.Cancel();
+            }
+        }
+
+        private void SaveBot(int idx)
+        {
+            // TODO: save bot
         }
 
         private void TabItem_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -183,6 +215,16 @@ namespace Messenger_Bot_Manager
         private void Editor_TextChanged(object? sender, EventArgs e)
         {
             bots[int.Parse(((TextEditor)sender).Name.Replace("e", ""))].isChanged = true;
+        }
+
+        private void CreateNewBot_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OpenBot_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
