@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:Messenger_Bot_Manager"
         mc:Ignorable="d"
         Title="CreateBotWindow" Height="450" Width="800">
+    <!--testcomment-->
     <Grid>
         
     </Grid>
