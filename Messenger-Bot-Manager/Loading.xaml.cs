@@ -35,6 +35,7 @@ namespace Messenger_Bot_Manager
         {
             if (!File.Exists("adb.exe") || !File.Exists("AdbWinApi.dll") || !File.Exists("AdbWinUsbApi.dll"))
             {
+                Dispatcher.Invoke(() => comment.Content = "adb 다운로드중...");
                 using (HttpClient client = new())
                 {
                     client.BaseAddress = new Uri("https://dl.google.com");
@@ -54,6 +55,11 @@ namespace Messenger_Bot_Manager
 
         private void Worker_DoWork(object? sender, DoWorkEventArgs e)
         {
+            if(string.IsNullOrEmpty(Properties.Settings.Default.programPath))
+            {
+                Properties.Settings.Default.programPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MessengerBotManager");
+                Properties.Settings.Default.Save();
+            }
             Dispatcher.Invoke(() => comment.Content = "adb 파일 유무 확인중...");
             checkADB();
 
@@ -65,7 +71,6 @@ namespace Messenger_Bot_Manager
             while (true)
             {
                 devices = adb.getDeviceIds();
-                Debug.WriteLine(devices.Length);
                 if (devices.Length == 0)
                 {
                     TaskDialog dialog = new();

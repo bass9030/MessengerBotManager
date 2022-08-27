@@ -13,8 +13,8 @@
             <Label FontSize="20" Margin="5" Content="새 봇 생성"/>
             <Rectangle Height="2" Margin="0 0 0 5" Fill="{DynamicResource MahApps.Brushes.Accent2}"/>
 
-            <Label FontSize="15" Margin="5 0 5 0" Content="봇 이름"/>
-            <TextBox x:Name="botName" Margin="5 0 5 0"/>
+            <Label FontSize="15" Margin="5 0 5 0" Content="봇 이름 (확장자 제외)"/>
+            <TextBox x:Name="botName" Margin="5 0 5 0" TextChanged="botName_TextChanged"/>
 
             <Label FontSize="15" Margin="5 5 5 0" Content="봇 앱 종류"/>
             <ComboBox x:Name="botType" Margin="5 0 5 0">

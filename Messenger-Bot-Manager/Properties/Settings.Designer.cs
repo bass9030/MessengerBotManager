@@ -12,7 +12,7 @@ namespace Messenger_Bot_Manager.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.0.3.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.3.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -56,6 +56,41 @@ namespace Messenger_Bot_Manager.Properties {
             }
             set {
                 this["chatbotPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string programPath {
+            get {
+                return ((string)(this["programPath"]));
+            }
+            set {
+                this["programPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"/**
+ * (string) room
+ * (string) sender
+ * (boolean) isGroupChat
+ * (void) replier.reply(message)
+ * (boolean) replier.reply(room, message, hideErrorToast = false) // 전송 성공시 true, 실패시 false 반환
+ * (string) imageDB.getProfileBase64()
+ * (string) packageName
+ */
+function response(room, msg, sender, isGroupChat, replier, imageDB, packageName) {
+    
+}")]
+        public string defaultCode {
+            get {
+                return ((string)(this["defaultCode"]));
+            }
+            set {
+                this["defaultCode"] = value;
             }
         }
     }

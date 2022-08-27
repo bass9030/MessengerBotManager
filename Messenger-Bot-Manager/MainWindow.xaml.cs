@@ -25,6 +25,7 @@ using System.Net.Http;
 using System.IO.Compression;
 using Dragablz;
 using Ookii.Dialogs.Wpf;
+using ControlzEx.Automation.Peers;
 
 namespace Messenger_Bot_Manager
 {
@@ -49,26 +50,13 @@ namespace Messenger_Bot_Manager
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        public RelayCommand BtnCmd { get; set; }
 
         List<Bot> bots = new List<Bot>();
         public MainWindow()
         {
             new Loading().ShowDialog();
-            BtnCmd = new RelayCommand(buttonExecute, buttonCanExecute);
             InitializeComponent();
             Loaded += MainWindow_Loaded;
-        }
-
-        private void buttonExecute(object param)
-        {
-            MessageBox.Show(param.ToString());
-            //Debug.WriteLine(((TabItem)param).Name);
-        }
-
-        private bool buttonCanExecute(object param)
-        {
-            return true;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -76,9 +64,16 @@ namespace Messenger_Bot_Manager
             this.DataContext = this;
             BotList.ItemsSource = bots;
             editorTab.ClosingItemCallback = EditorTab_PreviewTabClosing;
+
+            refreshBotList();
+        }
+
+        private void refreshBotList()
+        {
+            bots.Clear();
             string botPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MessengerBotManager");
-            if(!Directory.Exists(botPath)) Directory.CreateDirectory(botPath);
-            foreach(string bot in Directory.GetDirectories(botPath))
+            if (!Directory.Exists(botPath)) Directory.CreateDirectory(botPath);
+            foreach (string bot in Directory.GetDirectories(botPath))
             {
                 JObject info = JObject.Parse(File.ReadAllText(Path.Combine(bot, "bot.json")));
                 bots.Add(new Bot()
@@ -127,6 +122,7 @@ namespace Messenger_Bot_Manager
         private void SaveBot(int idx)
         {
             // TODO: save bot
+            File.WriteAllText(bots[idx].Path, ((TextEditor)editorTab.SelectedContent).Text);
         }
 
         private void TabItem_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -188,7 +184,7 @@ namespace Messenger_Bot_Manager
 
             TextEditor editor = new()
             {
-                FontSize = 18,
+                FontSize = 16,
                 Name = "e" + BotList.SelectedIndex.ToString(),
                 FontFamily = new FontFamily("D2Coding"),
                 SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("JavaScript"),
@@ -214,17 +210,44 @@ namespace Messenger_Bot_Manager
 
         private void Editor_TextChanged(object? sender, EventArgs e)
         {
-            bots[int.Parse(((TextEditor)sender).Name.Replace("e", ""))].isChanged = true;
+            //TODO: 미저장후 앱 종료시 경고창 생성
+            int idx = int.Parse(((TextEditor)sender).Name.Replace("e", ""));
+            bots[idx].isChanged = true;
+            TabItem item = editorTab.Items.OfType<TabItem>().SingleOrDefault(n => n.Name == "t" + idx);
+            if(!item.Header.ToString().EndsWith(" *"))item.Header = item.Header + " *";
         }
 
         private void CreateNewBot_Click(object sender, RoutedEventArgs e)
         {
-            new CreateBotWindow().ShowDialog();
+            CreateBotWindow window = new CreateBotWindow();
+            window.Closing += (sender, e) =>
+            {
+                if (window.bot != null)
+                {
+                    Bot bot = window.bot;
+                    Directory.CreateDirectory(bot.Path);
+                    JObject infoJson = new JObject();
+                    /*
+                     * Type = (BotType)Enum.Parse(typeof(BotType), info["type"].ToString()),
+                     * Name = info["name"].ToString(),
+                     * Path = Path.Combine(bot, info["scriptName"].ToString()),
+                     * isOn = info["isOn"].ToObject<bool>()
+                    */
+                    infoJson.Add("type", bot.Type.ToString());
+                    infoJson.Add("name", bot.Name);
+                    infoJson.Add("scriptName", bot.Path.Split('\\').Last() + ".js");
+                    infoJson.Add("isOn", bot.isOn);
+                    File.WriteAllText(Path.Combine(bot.Path, "bot.json"), infoJson.ToString());
+                    File.WriteAllText(Path.Combine(bot.Path, bot.Name + ".js"), Properties.Settings.Default.defaultCode);
+                    refreshBotList();
+                }
+            };
+            window.ShowDialog();
         }
 
         private void OpenBot_Click(object sender, RoutedEventArgs e)
         {
-
+            //TODO: bot.json 
         }
     }
 }
