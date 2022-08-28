@@ -1,31 +1,18 @@
-﻿using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using MahApps.Metro.Controls;
-using System.Xml;
+﻿using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using ICSharpCode.AvalonEdit;
-using System.Timers;
-using System.Net.Http;
-using System.IO.Compression;
 using Dragablz;
 using Ookii.Dialogs.Wpf;
-using ControlzEx.Automation.Peers;
+using Monaco.Wpf;
+using Microsoft.Web.WebView2.Wpf;
+using System.Diagnostics;
 
 namespace Messenger_Bot_Manager
 {
@@ -157,7 +144,7 @@ namespace Messenger_Bot_Manager
             if (BotList.SelectedItems.Count > 1) BotList.SelectedItems.RemoveAt(0);
         }
 
-        private void BotList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private async void BotList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (BotList.SelectedIndex == -1) return;
             int idx = editorTab.Items.OfType<TabItem>().ToList().FindIndex(e => e.Name == "t" + BotList.SelectedIndex);
@@ -182,8 +169,25 @@ namespace Messenger_Bot_Manager
             item.MouseMove += TabItem_PreviewMouseMove;
             item.Drop += TabItem_Drop;
 
-            TextEditor editor = new()
+            WebView2 editor = new();
+            editor.Initialized += async (sender, e) =>
             {
+                await editor.EnsureCoreWebView2Async(null);
+                editor.CoreWebView2.Navigate(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Monaco\index.html"));
+                //await editor.ExecuteScriptAsync($"alert(1);");
+                editor.CoreWebView2.OpenDevToolsWindow();
+                //editor.ev
+                await editor.ExecuteScriptAsync($"window.onload = () => {{" +
+                    $"var libSource = `{File.ReadAllText(".\\module.js")}`;" +
+                    $"var libUri = 'ts:filename/facts.d.ts';" +
+                    $"monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);" +
+                    $"monaco.editor.createModel(libSource, 'javascript', monaco.Uri.parse(libUri));" +
+                    $"editor.getModel().setValue(`{File.ReadAllText(bots[BotList.SelectedIndex].Path)}`);" +
+                    $"}}");
+            };
+            
+
+            /*{
                 FontSize = 16,
                 Name = "e" + BotList.SelectedIndex.ToString(),
                 FontFamily = new FontFamily("D2Coding"),
@@ -191,9 +195,9 @@ namespace Messenger_Bot_Manager
                 Foreground = new SolidColorBrush(Colors.LightGray),
                 ShowLineNumbers = true,
                 Text = File.ReadAllText(bots[BotList.SelectedIndex].Path),
-            };
+            };*/
 
-            editor.TextChanged += Editor_TextChanged;
+            /*editor.TextChanged += Editor_TextChanged;
 
             using (Stream s = new MemoryStream(Encoding.Default.GetBytes(Properties.Resources.VS2019_Dark)))
             {
@@ -201,7 +205,7 @@ namespace Messenger_Bot_Manager
                 {
                     editor.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
                 }
-            }
+            }*/
             item.Content = editor;
             editorTab.Items.Add(item);
             editorTab.Items.Refresh();

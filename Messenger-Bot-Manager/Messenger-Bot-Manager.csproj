@@ -19,9 +19,17 @@
     <PackageReference Include="Infragistics.Themes.MetroLight.Wpf" Version="1.0.0" />
     <PackageReference Include="Jint" Version="2.11.58" />
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1293.44" />
+    <PackageReference Include="monaco.wpf" Version="0.0.23" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
   </ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Monaco\**">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
   <ItemGroup>
     <Reference Include="HL">
@@ -56,6 +64,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="module.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

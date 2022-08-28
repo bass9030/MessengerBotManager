@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Messenger_Bot_Manager.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="deviceId" Type="System.String" Scope="User">
@@ -15,14 +15,13 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="defaultCode" Type="System.String" Scope="User">
-      <Value Profile="(Default)">/**
- * (string) room
- * (string) sender
- * (boolean) isGroupChat
- * (void) replier.reply(message)
- * (boolean) replier.reply(room, message, hideErrorToast = false) // 전송 성공시 true, 실패시 false 반환
- * (string) imageDB.getProfileBase64()
- * (string) packageName
+      <Value Profile="(Default)">/** 
+ * @param {String} room
+ * @param {String} sender
+ * @param {boolean} isGroupChat
+ * @param {Replier} replier
+ * @param {ImageDB} imageDB
+ * @param {String} packageName
  */
 function response(room, msg, sender, isGroupChat, replier, imageDB, packageName) {
     

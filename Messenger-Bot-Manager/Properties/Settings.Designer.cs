@@ -73,14 +73,13 @@ namespace Messenger_Bot_Manager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"/**
- * (string) room
- * (string) sender
- * (boolean) isGroupChat
- * (void) replier.reply(message)
- * (boolean) replier.reply(room, message, hideErrorToast = false) // 전송 성공시 true, 실패시 false 반환
- * (string) imageDB.getProfileBase64()
- * (string) packageName
+        [global::System.Configuration.DefaultSettingValueAttribute(@"/** 
+ * @param {String} room
+ * @param {String} sender
+ * @param {boolean} isGroupChat
+ * @param {Replier} replier
+ * @param {ImageDB} imageDB
+ * @param {String} packageName
  */
 function response(room, msg, sender, isGroupChat, replier, imageDB, packageName) {
     

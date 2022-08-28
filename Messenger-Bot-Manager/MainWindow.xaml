@@ -172,7 +172,6 @@
                             <Border 
                                 x:Name="templateRoot" 
                                 SnapsToDevicePixels="true" 
-                                Margin="5 5 5 5" 
                                 Padding="5 5 5 5"
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 Background="{TemplateBinding Background}">
