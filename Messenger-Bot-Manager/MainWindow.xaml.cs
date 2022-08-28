@@ -78,12 +78,13 @@ namespace Messenger_Bot_Manager
         private void EditorTab_PreviewTabClosing(ItemActionCallbackArgs<TabablzControl> args)
         {
             TabItem selectedItem = (TabItem)args.Owner.SelectedItem;
-            if (bots[int.Parse(selectedItem.Name.Replace("t", ""))].isChanged)
+            Bot bot = bots[int.Parse(selectedItem.Name.Replace("t", ""))];
+            if (bot.isChanged)
             {
                 TaskDialog dialog = new();
                 dialog.MainIcon = TaskDialogIcon.Warning;
                 dialog.WindowTitle = "저장되지 않은 봇";
-                dialog.Content = $"{selectedItem.Header}을(를) 저장하시겠습니까?";
+                dialog.Content = $"{bot.Name}을(를) 저장하시겠습니까?";
                 dialog.Buttons.Add(new TaskDialogButton()
                 {
                     ButtonType = ButtonType.Yes,
@@ -106,10 +107,10 @@ namespace Messenger_Bot_Manager
             }
         }
 
-        private void SaveBot(int idx)
+        private async void SaveBot(int idx)
         {
             // TODO: save bot
-            File.WriteAllText(bots[idx].Path, ((TextEditor)editorTab.SelectedContent).Text);
+            File.WriteAllText(bots[idx].Path, Convert.ToString(await ((WebView2)editorTab.SelectedContent).ExecuteScriptAsync("editor.getModel().getValue();")));
         }
 
         private void TabItem_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -170,19 +171,21 @@ namespace Messenger_Bot_Manager
             item.Drop += TabItem_Drop;
 
             WebView2 editor = new();
+            editor.Name = "e" + BotList.SelectedIndex.ToString();
             editor.Initialized += async (sender, e) =>
             {
                 await editor.EnsureCoreWebView2Async(null);
                 editor.CoreWebView2.Navigate(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Monaco\index.html"));
                 //await editor.ExecuteScriptAsync($"alert(1);");
                 editor.CoreWebView2.OpenDevToolsWindow();
-                //editor.ev
+                editor.WebMessageReceived += Editor_WebMessageReceived;
                 await editor.ExecuteScriptAsync($"window.onload = () => {{" +
+                    $"editor.getModel().setValue(`{File.ReadAllText(bots[BotList.SelectedIndex].Path)}`);" +
                     $"var libSource = `{File.ReadAllText(".\\module.js")}`;" +
                     $"var libUri = 'ts:filename/facts.d.ts';" +
                     $"monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);" +
                     $"monaco.editor.createModel(libSource, 'javascript', monaco.Uri.parse(libUri));" +
-                    $"editor.getModel().setValue(`{File.ReadAllText(bots[BotList.SelectedIndex].Path)}`);" +
+                    $"window.editor.getModel().onDidChangeContent((event) => {{ chrome.webview.postMessage({{'eventType': 'textChanged'}}); }});" +
                     $"}}");
             };
             
@@ -212,10 +215,21 @@ namespace Messenger_Bot_Manager
             editorTab.SelectedIndex = editorTab.Items.Count - 1;
         }
 
+        private void Editor_WebMessageReceived(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs e)
+        {
+            JObject eventInfo = JObject.Parse(e.WebMessageAsJson);
+            switch(eventInfo["eventType"].ToString())
+            {
+                case "textChanged":
+                    Editor_TextChanged(sender, null);
+                    break;
+            }
+        }
+
         private void Editor_TextChanged(object? sender, EventArgs e)
         {
             //TODO: 미저장후 앱 종료시 경고창 생성
-            int idx = int.Parse(((TextEditor)sender).Name.Replace("e", ""));
+            int idx = int.Parse(((WebView2)sender).Name.Replace("e", ""));
             bots[idx].isChanged = true;
             TabItem item = editorTab.Items.OfType<TabItem>().SingleOrDefault(n => n.Name == "t" + idx);
             if(!item.Header.ToString().EndsWith(" *"))item.Header = item.Header + " *";
