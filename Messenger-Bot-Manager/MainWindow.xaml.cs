@@ -13,6 +13,8 @@ using Ookii.Dialogs.Wpf;
 using Monaco.Wpf;
 using Microsoft.Web.WebView2.Wpf;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
+using System.Text;
 
 namespace Messenger_Bot_Manager
 {
@@ -110,8 +112,11 @@ namespace Messenger_Bot_Manager
         private async void SaveBot(int idx)
         {
             // TODO: save bot
-            File.WriteAllText(bots[idx].Path, Convert.ToString(await ((WebView2)editorTab.SelectedContent).ExecuteScriptAsync("editor.getModel().getValue();")));
+            string code = await ((WebView2)editorTab.SelectedContent).ExecuteScriptAsync("editor.getModel().getValue();");
+            File.WriteAllText(bots[idx].Path, Regex.Unescape(code.Substring(1, code.Length - 2)));
         }
+
+        
 
         private void TabItem_PreviewMouseMove(object sender, MouseEventArgs e)
         {
