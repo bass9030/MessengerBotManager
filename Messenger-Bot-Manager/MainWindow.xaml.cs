@@ -160,17 +160,11 @@ namespace Messenger_Bot_Manager
                 return;
             }
 
-            //CloseTabCommandParameter = "{Binding RelativeSource={RelativeSource Self}, Path=Header}" >
-
-
-
             TabItem item = new TabItem()
             {
                 Header = bots[BotList.SelectedIndex].Name,
                 Name = "t" + BotList.SelectedIndex.ToString(),
                 AllowDrop = true,
-                //CloseTabCommand = BtnCmd,
-                //CloseTabCommandParameter = BotList.SelectedIndex
             };
             item.MouseMove += TabItem_PreviewMouseMove;
             item.Drop += TabItem_Drop;
@@ -270,7 +264,7 @@ namespace Messenger_Bot_Manager
 
         private void OpenBot_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: bot.json 
+            //TODO: load bot.json 
         }
     }
 }

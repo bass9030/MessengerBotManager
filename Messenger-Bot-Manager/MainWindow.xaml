@@ -453,7 +453,7 @@
                 <Setter Property="AdjacentHeaderItemOffset" Value="-12" />
                 <Setter Property="ItemContainerStyle" Value="{StaticResource MahAppsTrapezoidDragableTabItemStyle}" />
             </Style>
-
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -482,6 +482,13 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
+                            <Canvas Visibility="{Binding Path=isChanged, Converter={StaticResource BoolToVis}}">
+                                <Ellipse
+                                Canvas.Top="6"
+                                Fill="{DynamicResource MahApps.Brushes.Accent2}"
+                                Height="20"
+                                Width="20"/>
+                            </Canvas>
                             <Label Content="{Binding Name}" HorizontalAlignment="Left"/>
                             <mah:ToggleSwitch IsOn="{Binding isOn}" HorizontalAlignment="Right"/>
                         </Grid>
