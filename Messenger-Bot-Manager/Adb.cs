@@ -67,18 +67,25 @@ namespace Messenger_Bot_Manager
         public string[] getFileFolders(string path)
         {
             path = path
-                .Replace("~", "\\~")
                 .Replace("=", "\\=")
                 .Replace("[", "\\[")
                 .Replace("#", "\\#")
                 .Replace("&", "\\&")
-                .Replace("(", "\\(")
                 .Replace(")", "\\)")
+                .Replace("(", "\\(")
                 .Replace("'", "\\'")
                 .Replace(";", "\\;")
                 .Replace("`", "\\`")
-                .Replace("~", "\\~");
-            return runExec($"shell \"ls -1 {path}\"").Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                .Replace("{", "\\{")
+                .Replace("}", "\\}")
+                .Replace("$", "\\$");
+            try
+            {
+                return runExec($"shell \"ls -1 {path}\"").Split(new string[] { "\r\n" }, StringSplitOptions.None);
+            }catch
+            {
+                return new string[0];
+            }
         }
 
         private string output = "";
@@ -93,6 +100,7 @@ namespace Messenger_Bot_Manager
             ProcessStartInfo startinfo = new()
             {
                 FileName = adbPath,
+                StandardOutputEncoding = Encoding.Default,
                 Arguments = (!string.IsNullOrEmpty(targetDeviceId) ? $"-s {targetDeviceId} " : "") + Argments,
                 CreateNoWindow = true,
                 UseShellExecute = false,
@@ -104,6 +112,7 @@ namespace Messenger_Bot_Manager
             process.OutputDataReceived += Process_OutputDataReceived;
             process.BeginOutputReadLine();
             process.WaitForExit();
+            //string output = process.StandardOutput.ReadToEnd();
             string errStr = process.StandardError.ReadToEnd();
             if (process.ExitCode != 0 && !string.IsNullOrWhiteSpace(errStr))
             {
@@ -118,7 +127,6 @@ namespace Messenger_Bot_Manager
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            //Debug.WriteLine(e.Data);
             output += e.Data + "\r\n";
         }
     }

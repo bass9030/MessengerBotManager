@@ -20,6 +20,7 @@ namespace Messenger_Bot_Manager
     /// </summary>
     public partial class deviceSelect : MetroWindow
     {
+        public string data;
         public deviceSelect(string[] deviceIds)
         {
             InitializeComponent();
@@ -28,9 +29,8 @@ namespace Messenger_Bot_Manager
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.deviceId = deviceList.SelectedItem.ToString();
-            Properties.Settings.Default.Save();
-            this.Close();
+            data = deviceList.SelectedItem.ToString();
+            Close();
         }
     }
 }

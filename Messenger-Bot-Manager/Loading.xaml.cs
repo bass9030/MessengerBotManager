@@ -1,19 +1,12 @@
 ﻿using MahApps.Metro.Controls;
 using Ookii.Dialogs.Wpf;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace Messenger_Bot_Manager
 {
@@ -55,7 +48,7 @@ namespace Messenger_Bot_Manager
 
         private void Worker_DoWork(object? sender, DoWorkEventArgs e)
         {
-            if(string.IsNullOrEmpty(Properties.Settings.Default.programPath))
+            if (string.IsNullOrEmpty(Properties.Settings.Default.programPath))
             {
                 Properties.Settings.Default.programPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MessengerBotManager");
                 Properties.Settings.Default.Save();
@@ -88,38 +81,41 @@ namespace Messenger_Bot_Manager
                     if (dialog.ShowDialog().ButtonType != ButtonType.Retry) break;
                     else continue;
                 }
+                else break;
             }
-            if(devices.Length != 0)
+            if (devices.Length != 0)
             {
                 isAdbConnect = true;
-                if(string.IsNullOrEmpty(Properties.Settings.Default.deviceId))
+                if (devices.Length == 1)
                 {
-                    if (devices.Length == 1)
-                    {
-                        Properties.Settings.Default.deviceId = devices[0];
-                        Properties.Settings.Default.Save();
-                        adb.setTargetDeviceId(devices[0]);
-                    }
-                    else
-                    {
-                        Dispatcher.Invoke(() =>
-                        {
-                            Window deviceSelect = new deviceSelect(devices);
-                            deviceSelect.Closed += (s,e) => adb.setTargetDeviceId(Properties.Settings.Default.deviceId);
-                            deviceSelect.ShowDialog();
-                        });
-                        return;
-                    }
+                    adb.setTargetDeviceId(devices[0]);
                 }
                 else
                 {
-                    adb.setTargetDeviceId(Properties.Settings.Default.deviceId);
+                    Dispatcher.Invoke(() =>
+                    {
+                        Window deviceSelect = new deviceSelect(devices);
+                        deviceSelect.Closed += (s, e) =>
+                        {
+                            adb.setTargetDeviceId(((deviceSelect)deviceSelect).data);
+                            Dispatcher.Invoke(() => comment.Content = "봇파일 동기화중...");
+
+                            if (isAdbConnect)
+                            {
+                                syncBot(adb);
+                            }
+
+                            Dispatcher.Invoke(() => Close());
+                        };
+                        deviceSelect.ShowDialog();
+                    });
+                    return;
                 }
             }
 
             Dispatcher.Invoke(() => comment.Content = "봇파일 동기화중...");
 
-            if(isAdbConnect)
+            if (isAdbConnect)
             {
                 syncBot(adb);
             }
@@ -134,13 +130,16 @@ namespace Messenger_Bot_Manager
             {
                 if (string.IsNullOrEmpty(Properties.Settings.Default.msgbotPath))
                 {
+                    Dispatcher.Invoke(() => comment.Content = "메신저봇 R 폴더를 찾는중...");
+
                     Properties.Settings.Default.msgbotPath = "None";
                     string[] folders = adb.getFileFolders("/sdcard/");
+                    string path = "";
                     foreach (string folder in folders)
                     {
-                        //Debug.WriteLine(folder);
                         if (!Regex.IsMatch(folder, ".+\\..+"))
                         {
+                            //Debug.WriteLine(folder);
                             string[] innerFiles = adb.getFileFolders("/sdcard/" + folder);
                             string[] matchFiles = new string[] { "GLOBAL_LOG.json", "editor_shortcuts.txt", "global_modules", "Bots" };
                             int matchCount = 0;
@@ -154,12 +153,27 @@ namespace Messenger_Bot_Manager
                             }
                             if (matchCount == 4)
                             {
-                                string path = $"/sdcard/{folder}/";
-                                MessageBox.Show(path);
-                                Properties.Settings.Default.msgbotPath = path;
-                                Properties.Settings.Default.Save();
+                                path = $"/sdcard/{folder}/Bots";
+                                break;
                             }
                         }
+                    }
+                    if (string.IsNullOrEmpty(path))
+                    {
+                        TaskDialog dialog = new();
+                        dialog.MainIcon = TaskDialogIcon.Warning;
+                        dialog.WindowTitle = "메신저봇 R 폴더를 찾을 수 없음!";
+                        dialog.Content = "메신저봇 R 폴더를 찾을 수 없습니다.\n추후 설치시 설정에서 폴더 지정이 가능합니다.";
+                        dialog.Buttons.Add(new TaskDialogButton()
+                        {
+                            ButtonType = ButtonType.Ok
+                        });
+                        dialog.ShowDialog();
+                    }
+                    else
+                    {
+                        Properties.Settings.Default.msgbotPath = path;
+                        Properties.Settings.Default.Save();
                     }
                 }
             }
@@ -167,8 +181,38 @@ namespace Messenger_Bot_Manager
             // 채팅 자동응답 봇 경로 확인
             if (Properties.Settings.Default.chatbotPath != "None")
             {
-                //TODO: 채팅 자동응답봇 폴더 존재 확인
+                Dispatcher.Invoke(() => comment.Content = "채팅 자동응답 봇 폴더를 찾는중...");
+
+                Properties.Settings.Default.msgbotPath = "None";
+                string[] folders = adb.getFileFolders("/sdcard/");
+                string path = "";
+                foreach (string folder in folders)
+                {
+                    if (!Regex.IsMatch(folder, ".+\\..+"))
+                    {
+                        if (folder == "ChatBot") path = $"/sdcard/{folder}/BotData";
+                    }
+                }
+                if (string.IsNullOrEmpty(path))
+                {
+                    TaskDialog dialog = new();
+                    dialog.MainIcon = TaskDialogIcon.Warning;
+                    dialog.WindowTitle = "채팅 자동응답 봇 폴더를 찾을 수 없음!";
+                    dialog.Content = "채팅 자동응답 봇 폴더를 찾을 수 없습니다.\n추후 설치시 설정에서 폴더 지정이 가능합니다.";
+                    dialog.Buttons.Add(new TaskDialogButton()
+                    {
+                        ButtonType = ButtonType.Ok
+                    });
+                    dialog.ShowDialog();
+                }
+                else
+                {
+                    Properties.Settings.Default.chatbotPath = path;
+                    Properties.Settings.Default.Save();
+                }
             }
+
+
         }
 
         private void Loading_Loaded(object sender, RoutedEventArgs e)
